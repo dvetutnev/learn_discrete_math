@@ -6,8 +6,8 @@ Build
    user@pc:~$ git clone https://github.com/dvetutnev/learn_discrete_math.git
    user@pc:~$ mkdir build-learn_discrete_math
    user@pc:~$ cd build-learn_discrete_math
-   user@pc:~/build-learn_discrete_math$ cmake ../learn_discrete_math
-   user@pc:~/build-learn_discrete_math$ cmake . --build
+   user@pc:~/build-learn_discrete_math$ cmake -DCMAKE_BUILD_TYPE=Release ../learn_discrete_math
+   user@pc:~/build-learn_discrete_math$ cmake --build .
    user@pc:~/build-learn_discrete_math$ ctest
 
 
@@ -17,4 +17,4 @@ By default this project used [Conan package manager](http://conan.io). Please in
 
 You maybe use system libraries. In this case disable Conan:
 
-    user@pc:~/build-learn_discrete_math$ cmake -DUSE_CONAN=OFF ../learn_discrete_math
+    user@pc:~/build-learn_discrete_math$ cmake -DCMAKE_BUILD_TYPE=Release -DUSE_CONAN=OFF ../learn_discrete_math
