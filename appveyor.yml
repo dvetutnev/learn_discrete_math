@@ -20,4 +20,4 @@ build_script:
   - cmake --build . --config %CONFIGURATION%
   - ctest --verbose --build-config %CONFIGURATION%
 
-build: none
+build: false
