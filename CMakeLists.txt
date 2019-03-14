@@ -11,5 +11,12 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+enable_testing()
+
 include(towns_generator/towns_generator.cmake)
 add_executable(fake fake.cpp)
+add_test(
+    NAME fake
+    COMMAND fake
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
