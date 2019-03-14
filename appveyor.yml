@@ -6,7 +6,7 @@ platform:
   - x64
 
 configuration:
-  - Release
+  - Debug
 
 environment:
   BUILD_DIR: "%APPVEYOR_BUILD_FOLDER%\\build"
