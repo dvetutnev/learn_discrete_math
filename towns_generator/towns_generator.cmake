@@ -30,6 +30,11 @@ set(args
     "--build"
     ${CMAKE_BINARY_DIR}/towns_generator
 )
+if(MSVC)
+    set(args
+        --config $ENV{CONFIGURATION}
+    )
+endif()
 string(REPLACE ";" " " _args "${args}")
 message(STATUS "Execute: ${cmd} ${_args}")
 execute_process(
