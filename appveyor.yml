@@ -18,9 +18,6 @@ before_build:
 build_script:
   - cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_VERBOSE_MAKEFILE=ON ..
   - cmake --build . --config %CONFIGURATION%
+  - ctest --verbose --build-config %CONFIGURATION%
 
 build: none
-
-test_script:
-  - cd %BUILD_DIR%
-  - ctest --verbose --build-config %CONFIGURATION%
