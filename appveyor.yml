@@ -22,4 +22,5 @@ build_script:
 build: none
 
 test_script:
+  - cd %BUILD_DIR%
   - ctest --verbose --build-config %CONFIGURATION%
