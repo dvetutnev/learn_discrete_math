@@ -11,6 +11,7 @@
 #include <iomanip>
 #include <random>
 #include <cstdlib>
+#include <cctype>
 
 
 int main(int argc, char* argv[]) {
