@@ -5,8 +5,10 @@
 cmake_minimum_required(VERSION 3.0)
 project(towns_generator CXX)
 
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
 if(MSVC)
-    add_compile_definitions(-D_CRT_SECURE_NO_WARNINGS)
+    add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
 endif()
 
 add_executable(towns_generator
