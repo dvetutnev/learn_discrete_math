@@ -32,6 +32,7 @@ set(args
 )
 if(MSVC)
     set(args
+        ${args}
         --config $ENV{CONFIGURATION}
     )
 endif()
