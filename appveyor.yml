@@ -12,12 +12,14 @@ environment:
   BUILD_DIR: "%APPVEYOR_BUILD_FOLDER%\\build"
 
 before_build:
-  mkdir %BUILD_DIR%
-  cd %BUILD_DIR%
+  - cmd: mkdir %BUILD_DIR%
+  - cmd: cd %BUILD_DIR%
 
 build_script:
-  cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_VERBOSE_MAKEFILE=ON ..
-  cmake --build . --config %CONFIGURATION%
-  ctest --verbose --build-config %CONFIGURATION%
+  - cmd: cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_VERBOSE_MAKEFILE=ON ..
+  - cmd: cmake --build . --config %CONFIGURATION%
+
+test_script:
+  - cmd: ctest --verbose --build-config %CONFIGURATION%
 
 build: false
