@@ -1,7 +1,7 @@
 os: linux
 dist: xenial
-sudo: false
-language: generic
+sudo: required
+language: cpp
 services:
    - docker
 
