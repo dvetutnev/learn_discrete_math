@@ -19,4 +19,3 @@ build_script:
   - cmd: cmake -G "Visual Studio 15 2017 Win64" -DCMAKE_VERBOSE_MAKEFILE=ON ..
   - cmd: cmake --build . --config %CONFIGURATION%
   - cmd: ctest --verbose --build-config %CONFIGURATION%
-  - cmd: echo "Done"

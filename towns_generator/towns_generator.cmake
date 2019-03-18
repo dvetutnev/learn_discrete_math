@@ -1,4 +1,5 @@
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/towns_generator)
+get_property(isMultiConfig GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
 
 set(workDir ${CMAKE_BINARY_DIR}/towns_generator)
 set(cmd ${CMAKE_COMMAND})
@@ -6,8 +7,16 @@ set(args
     "-G" ${CMAKE_GENERATOR}
     "-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
     "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
-    "-DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
-    "-DCMAKEVERBOSE_MAKE_FILE=ON"
+    "-DCMAKEVERBOSE_MAKE_FILE=${CMAKEVERBOSE_MAKE_FILE}"
+)
+if(NOT isMultiConfig)
+    set(args
+        ${args}
+        "-DCMAKE_BUILD_TYPE=Release"
+    )
+endif()
+set(args
+    ${args}
     ${CMAKE_SOURCE_DIR}/towns_generator
 )
 string(REPLACE ";" " " _args "${args}")
@@ -30,10 +39,11 @@ set(args
     "--build"
     ${CMAKE_BINARY_DIR}/towns_generator
 )
-if(MSVC)
+if(isMultiConfig)
     set(args
         ${args}
-        --config $ENV{CONFIGURATION}
+        "--config"
+        "Release"
     )
 endif()
 string(REPLACE ";" " " _args "${args}")
