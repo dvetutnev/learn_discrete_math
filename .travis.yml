@@ -1,0 +1,15 @@
+os: linux
+dist: xenial
+sudo: false
+language: generic
+services:
+   - docker
+
+env: DOCKER_IMAGE=conanio/gcc8
+
+script:
+  - rm -rf build && mkdir -p build && cd build
+  - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release
+  - cmake --build
+  - ctest
+
