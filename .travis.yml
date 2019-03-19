@@ -3,7 +3,7 @@ dist: xenial
 sudo: false
 language: generic
 services:
-   - docker
+  - docker
 
 env: DOCKER_IMAGE=conanio/gcc8
 
