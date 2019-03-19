@@ -8,5 +8,5 @@ services:
 env: DOCKER_IMAGE=conanio/gcc8
 
 script:
-  - docker run --rm -v .:. $"DOCKER_IMAGE" ./travis.sh
+  - docker run --rm -v .:. "$DOCKER_IMAGE" ./travis.sh
 
