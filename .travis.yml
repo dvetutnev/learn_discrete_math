@@ -1,6 +1,6 @@
 os: linux
 dist: xenial
-sudo: required
+sudo: false
 language: cpp
 services:
    - docker
@@ -8,11 +8,5 @@ services:
 env: DOCKER_IMAGE=conanio/gcc8
 
 script:
-  - pwd
-  - cmake --version
-  - g++ --version
-  - rm -rf build && mkdir -p build && cd build
-  - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release ..
-  - cmake --build
-  - ctest
+  - docker run --rm -v .:. $"DOCKER_IMAGE" ./travis.sh
 
