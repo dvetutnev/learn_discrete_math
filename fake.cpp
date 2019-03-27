@@ -11,7 +11,7 @@
 
 
 std::ostream& operator<< (std::ostream& os, const std::vector<Town>& towns) {
-    auto comp = [](const Town& a, const Town&b) {
+    auto comp = [](const Town& a, const Town& b) {
         return a.name.length() < b.name.length();
     };
     const auto maxNameLengthIt = std::max_element(std::cbegin(towns), std::cend(towns), comp);
