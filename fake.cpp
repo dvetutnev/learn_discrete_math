@@ -15,21 +15,24 @@ std::ostream& operator<< (std::ostream& os, const std::vector<Town>& towns) {
         return a.name.length() < b.name.length();
     };
     const auto maxNameLengthIt = std::max_element(std::cbegin(towns), std::cend(towns), comp);
-    const int maxNameLength = static_cast<int>(maxNameLengthIt->name.length());
+    const std::size_t maxNameLength = maxNameLengthIt->name.length();
 
     const char latitude[] = "Latitude ";
     const char longitude[] = "Longitude";
-    const unsigned int lineSeparatorLength = \
-            static_cast<unsigned int>(maxNameLength) + 1 + (sizeof(latitude) - 1) + 1 + (sizeof(longitude) - 1) + 1;
-    const std::string lineSeparator(lineSeparatorLength, '-');
+    std::string lineSeparator(maxNameLength, '-');
+    lineSeparator += '+';
+    lineSeparator += std::string(sizeof(latitude) - 1, '-'); // Length without null terminator
+    lineSeparator += '+';
+    lineSeparator += std::string(sizeof(longitude) - 1, '-');
+    lineSeparator += '+';
 
     os << lineSeparator << std::endl;
-    os << std::left << std::setw(maxNameLength) << "Name" << '|' << latitude << '|' << longitude << '|' << std::endl;
+    os << std::left << std::setw(static_cast<int>(maxNameLength)) << "Name" << '|' << latitude << '|' << longitude << '|' << std::endl;
     os << lineSeparator << std::endl;
 
     os << std::showpos << std::setprecision(6);
     for (const auto& town : towns) {
-        os << std::left << std::setw(maxNameLength) << town.name << '|' << \
+        os << std::left << std::setw(static_cast<int>(maxNameLength)) << town.name << '|' << \
               std::right << std::setw(9) << town.latitude << '|' << \
               std::right << std::setw(9) << town.longitude << '|' << \
               std::endl;
