@@ -64,31 +64,21 @@ std::ostream& operator<< (std::ostream& os, const DistanceTowns& table) {
         rowSeparator += cellSeparator;
     }
 
-    // First line header
+    // Header
     const std::string corner(maxNameLength, ' ');
     os << corner << '+';
     for (std::size_t i = 0; i < table.size(); ++i) {
         os << cellSeparator;
     }
-    os << std::endl;
-    // Next header lines
-    for (std::size_t i = maxNameLength; i > 0; --i) {
-        os << corner << '|';
-        for (const auto& entry : table) {
-            const std::string& name = entry.first;
-            const std::size_t length = name.length();
-            if (i <= length) {
-                os << ' ' << ' ' << name[length - i] << ' ' << ' ';
-            }
-            else {
-                os << ' ' << ' ' << ' ' << ' ' << ' ';
-            }
-            os << '|';
+    os << std::endl << corner << '|';
+    for (const auto& row : table) {
+        const std::string& name = row.first;
+        for (unsigned int i = 0; i < cellWidth; ++i) {
+            os << (i < name.length() ? name[i] : ' ');
         }
-        os << std::endl;
+        os << '|';
     }
-
-    os << rowSeparator << std::endl;
+    os << std::endl << rowSeparator << std::endl;
     // Data lines
     for (const auto& row : table) {
         const std::string& name = row.first;
