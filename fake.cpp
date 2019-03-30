@@ -114,11 +114,79 @@ DistanceTowns calcDistanceTowns(const std::vector<Town>& towns) {
 }
 
 
+std::pair<float, std::vector<std::string>> brutforce(const DistanceTowns& distanceTowns) {
+    std::vector<std::string> names;
+    names.resize(distanceTowns.size());
+    auto extractName = [](const DistanceTowns::value_type& row) -> std::string {
+        return row.first;
+    };
+    std::transform(std::cbegin(distanceTowns), std::cend(distanceTowns), std::begin(names), extractName);
+
+    auto nextPermutation = [](std::vector<std::string>::iterator first, std::vector<std::string>::iterator last) -> bool {
+        if (first == last) {
+            return false;
+        }
+
+        std::vector<std::string>::iterator i = last;
+        if (first == --i) {
+            return false;
+        }
+
+        while (true) {
+            std::vector<std::string>::iterator i1, i2;
+
+            i1 = i;
+            if (*--i < *i1) {
+                i2 = last;
+                while (!(*i < *--i2))
+                    ;
+                std::iter_swap(i, i2);
+                std::reverse(i1, last);
+                return true;
+            }
+            if (i == first) {
+                std::reverse(first, last);
+                return false;
+            }
+        }
+    };
+
+    float minPathLength = 0.f;
+    do {
+        float pathLength = 0.f;
+        auto it = std::cbegin(names);
+        const auto itEnd = std::cend(names);
+        for (;;) {
+            auto itNext = it;
+            ++itNext;
+            if (itNext == itEnd) {
+                break;
+            }
+            pathLength += distanceTowns.at(*it).at(*itNext);
+            it = itNext;
+        }
+        if (std::isfinite(minPathLength) || std::isgreater(minPathLength, pathLength)) {
+            minPathLength = pathLength;
+        }
+    } while (nextPermutation(std::begin(names), std::end(names)));
+
+    return std::make_pair(minPathLength, std::move(names));
+}
+
+
 int main(int, char**) {
     const std::vector<Town> towns = generate();
+    const DistanceTowns distanceTowns = calcDistanceTowns(towns);
 
     std::cout << towns << std::endl;
-    std::cout << calcDistanceTowns(towns) << std::endl;
+    std::cout << distanceTowns << std::endl;
+
+    const auto brutforceResult = brutforce(distanceTowns);
+    std::cout << "Brutforce path length: " << brutforceResult.first << std::endl;
+    std::cout << "Brutforce path: " << std::endl;
+    for (const auto& name : brutforceResult.second) {
+        std::cout << name << std::endl;
+    }
 
     return EXIT_SUCCESS;
 }
