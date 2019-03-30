@@ -6,6 +6,7 @@
 
 #include <algorithm>
 #include <map>
+#include <cmath>
 #include <iostream>
 #include <iomanip>
 #include <cstdlib>
@@ -94,33 +95,30 @@ std::ostream& operator<< (std::ostream& os, const DistanceTowns& table) {
 }
 
 
-static const DistanceTowns distanceTowns = {
-    { "NY", {
-
-          {"NY", 1234.6f}, {"Ryazan", 1.2345678f}, {"Metropolis", 99.645f} }
-    },
-    { "Ryazan", {
-
-          {"NY", 0.0f}, {"Ryazan", 0.0f}, {"Metropolis", 0.0f} }
-    },
-    { "Metropolis", {
-
-          {"Ny", 0.0f}, {"Ryazan", 0.0f}, {"Metropolis", 0.0f} }
+DistanceTowns calcDistanceTowns(const std::vector<Town>& towns) {
+    DistanceTowns result;
+    for (const Town& row : towns) {
+        std::map<std::string, float> rowResult;
+        for (const Town& column : towns) {
+            if (row.name == column.name) {
+                rowResult.emplace(column.name, 0.f);
+            }
+            else {
+                const float distance = std::hypotf(row.latitude - column.latitude, row.longitude - column.longitude);
+                rowResult.emplace(column.name, distance);
+            }
+        }
+        result.emplace(row.name, std::move(rowResult));
     }
-};
+    return result;
+}
 
 
 int main(int, char**) {
     const std::vector<Town> towns = generate();
-    for (const auto& town : towns) {
-        std::cout << town.name << "\t\t" << town.latitude << '\t' << town.longitude << std::endl;
-    }
 
     std::cout << towns << std::endl;
-    std::cout << distanceTowns << std::endl;
-
-    const float a = 1234.5682646481f;
-    std::cout << std::setw(5) << std::setprecision(4) << std::noshowpos << a << std::endl;
+    std::cout << calcDistanceTowns(towns) << std::endl;
 
     return EXIT_SUCCESS;
 }
