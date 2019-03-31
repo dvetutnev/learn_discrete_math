@@ -127,13 +127,13 @@ std::pair<float, std::vector<std::string>> brutforce(const DistanceTowns& distan
             return false;
         }
 
-        std::vector<std::string>::iterator i = last;
+        decltype(first) i = last;
         if (first == --i) {
             return false;
         }
 
         while (true) {
-            std::vector<std::string>::iterator i1, i2;
+            decltype(first) i1, i2;
 
             i1 = i;
             if (*--i < *i1) {
