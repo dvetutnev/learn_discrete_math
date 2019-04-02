@@ -6,6 +6,7 @@
 
 #include <algorithm>
 #include <map>
+#include <list>
 #include <cmath>
 #include <iostream>
 #include <iomanip>
@@ -114,15 +115,14 @@ DistanceTowns calcDistanceTowns(const std::vector<Town>& towns) {
 }
 
 
-std::pair<float, std::vector<std::string>> brutforce(const DistanceTowns& distanceTowns) {
-    std::vector<std::string> names;
-    names.resize(distanceTowns.size());
+std::pair<float, std::list<std::string>> brutforce(const DistanceTowns& distanceTowns) {
+    std::list<std::string> names;
     auto extractName = [](const DistanceTowns::value_type& row) -> std::string {
         return row.first;
     };
-    std::transform(std::cbegin(distanceTowns), std::cend(distanceTowns), std::begin(names), extractName);
+    std::transform(std::cbegin(distanceTowns), std::cend(distanceTowns), std::back_inserter(names), extractName);
 
-    auto nextPermutation = [](std::vector<std::string>::iterator first, std::vector<std::string>::iterator last) -> bool {
+    auto nextPermutation = [](auto first, auto last) -> bool {
         if (first == last) {
             return false;
         }
@@ -157,8 +157,7 @@ std::pair<float, std::vector<std::string>> brutforce(const DistanceTowns& distan
         auto it = std::cbegin(names);
         const auto itEnd = std::cend(names);
         for (;;) {
-            auto itNext = it;
-            ++itNext;
+            const auto itNext = std::next(it);
             if (itNext == itEnd) {
                 break;
             }
