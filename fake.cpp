@@ -152,6 +152,7 @@ std::pair<float, std::list<std::string>> brutforce(const DistanceTowns& distance
     };
 
     float minPathLength = 0.f;
+    std::list<std::string> minPath;
     do {
         float pathLength = 0.f;
         auto it = std::cbegin(names);
@@ -164,14 +165,51 @@ std::pair<float, std::list<std::string>> brutforce(const DistanceTowns& distance
             pathLength += distanceTowns.at(*it).at(*itNext);
             it = itNext;
         }
-        if (std::isfinite(minPathLength) || std::isgreater(minPathLength, pathLength)) {
+        if (std::isless(pathLength, minPathLength) || minPathLength == 0.f) {
             minPathLength = pathLength;
+            minPath = names;
         }
-    } while (nextPermutation(std::begin(names), std::end(names)));
+    } while (nextPermutation(++std::begin(names), std::end(names)));
 
-    return std::make_pair(minPathLength, std::move(names));
+    return std::make_pair(minPathLength, std::move(minPath));
 }
 
+
+std::pair<float, std::list<std::string>> prime(const DistanceTowns& distanceTowns) {
+    std::list<std::string> names;
+    auto extractName = [](const DistanceTowns::value_type& row) -> std::string {
+        return row.first;
+    };
+    std::transform(std::cbegin(distanceTowns), std::cend(distanceTowns), std::back_inserter(names), extractName);
+
+    float pathLength = 0.f;
+    std::list<std::string> path{names.front()}; names.pop_front();
+    do {
+        const std::string& lastName = path.back();
+        const auto& row = distanceTowns.at(lastName);
+
+        auto itName = std::cbegin(names);
+        auto itCell = row.find(*itName);
+
+        ++itName;
+
+        for (; itName != std::cend(names); ++itName) {
+            const auto it = row.find(*itName);
+            if (std::isless(it->second, itCell->second)) {
+                itCell = it;
+            }
+        }
+
+        const std::string& nextName = itCell->first;
+
+        pathLength += itCell->second;
+        path.push_back(nextName);
+
+        names.remove(nextName);
+    } while (!names.empty());
+
+    return std::make_pair(pathLength, std::move(path));
+}
 
 int main(int, char**) {
     const std::vector<Town> towns = generate();
@@ -184,6 +222,13 @@ int main(int, char**) {
     std::cout << "Brutforce path length: " << brutforceResult.first << std::endl;
     std::cout << "Brutforce path: " << std::endl;
     for (const auto& name : brutforceResult.second) {
+        std::cout << name << std::endl;
+    }
+
+    const auto primeResult = prime(distanceTowns);
+    std::cout << "Prime path length: " << primeResult.first << std::endl;
+    std::cout << "Prime path: " << std::endl;
+    for (const auto& name : primeResult.second) {
         std::cout << name << std::endl;
     }
 
