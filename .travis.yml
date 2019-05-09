@@ -9,8 +9,6 @@ matrix:
         - docker
       env: DOCKER_IMAGE=conanio/gcc8
 
-    -os: windows
-
 script:
   - ./.travis.sh
 
