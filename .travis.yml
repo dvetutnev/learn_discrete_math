@@ -1,11 +1,14 @@
-os: linux
-dist: xenial
-sudo: false
-language: generic
-services:
-  - docker
+language: cpp
 
-env: DOCKER_IMAGE=conanio/gcc8
+matrix:
+  include:
+    - os: linux
+      dist: xenial
+      sudo: false
+      services: docker
+      env: DOCKER_IMAGE=conanio/gcc8
+
+    -os: windows
 
 script:
   - ./.travis.sh
