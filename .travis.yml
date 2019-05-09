@@ -8,5 +8,5 @@ services:
 env: DOCKER_IMAGE=conanio/gcc8
 
 script:
-  - ./travis.sh
+  - ./.travis.sh
 
