@@ -35,7 +35,7 @@ add_test(
 add_executable(shortest_way_benchmark shortest_way/benchmark.cpp $<TARGET_OBJECTS:shortest_way_obj>)
 target_link_libraries(shortest_way_benchmark benchmark)
 add_test(
-    NAME shortest_way_bechmark
-    COMMAND shortest_way_bechmark
+    NAME shortest_way_benchmark
+    COMMAND shortest_way_benchmark
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
