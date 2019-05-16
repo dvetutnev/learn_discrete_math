@@ -16,16 +16,26 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-set(BENCHMARK_ENABLE_TESTING False)
-set(BENCHMARK_ENABLE_INSTALL False)
+option(BENCHMARK_ENABLE_TESTING "" OFF)
+option(BENCHMARK_ENABLE_INSTALL "" OFF)
 add_subdirectory(benchmark)
 
 enable_testing()
 
 include(towns_generator/towns_generator.cmake)
-add_executable(shortest_way shortest_way/shortest_way.cpp shortest_way/main.cpp)
+add_library(shortest_way_obj OBJECT shortest_way/shortest_way.cpp)
+
+add_executable(shortest_way shortest_way/main.cpp $<TARGET_OBJECTS:shortest_way_obj>)
 add_test(
     NAME shortest_way
     COMMAND shortest_way
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)
+
+add_executable(shortest_way_benchmark shortest_way/benchmark.cpp $<TARGET_OBJECTS:shortest_way_obj>)
+target_link_libraries(shortest_way_benchmark benchmark)
+add_test(
+    NAME shortest_way_bechmark
+    COMMAND shortest_way_bechmark
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
