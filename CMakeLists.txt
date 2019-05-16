@@ -16,12 +16,16 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+set(BENCHMARK_ENABLE_TESTING False)
+set(BENCHMARK_ENABLE_INSTALL False)
+add_subdirectory(benchmark)
+
 enable_testing()
 
 include(towns_generator/towns_generator.cmake)
-add_executable(fake fake.cpp)
+add_executable(shortest_way shortest_way/shortest_way.cpp shortest_way/main.cpp)
 add_test(
-    NAME fake
-    COMMAND fake
+    NAME shortest_way
+    COMMAND shortest_way
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
