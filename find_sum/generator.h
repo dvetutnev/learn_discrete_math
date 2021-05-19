@@ -2,7 +2,7 @@
 
 
 #include <random>
-#include <set>
+#include <vector>
 #include <algorithm>
 
 
@@ -16,15 +16,19 @@ inline auto getRandomGenerator(std::size_t a, std::size_t b) {
 }
 
 
-inline std::set<int> generateSet(std::size_t size) {
+inline std::vector<int> generateSet(std::size_t size) {
     std::size_t hight = std::max(999ul, size);
     auto generator = getRandomGenerator(1, hight);
 
-    std::set<int> result;
+    std::vector<int> result;
+    result.reserve(size);
 
     do {
-        int i = generator();
-        result.insert(i);
+        auto number = generator();
+        auto it = std::find(std::begin(result), std::end(result), number);
+        if (it == std::end(result)) {
+            result.push_back(number);
+        }
     }
     while (result.size() < size);
 
