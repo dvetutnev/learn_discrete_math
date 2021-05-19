@@ -20,13 +20,13 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 include(conan.cmake)
 
 conan_check(VERSION 1.35.0 REQUIRED)
-conan_cmake_configure(REQUIRES benchmark/1.5.3 gtest/cci.20210126
-                      GENERATORS cmake_find_package)
 conan_cmake_autodetect(settings)
-conan_cmake_install(PATH_OR_REFERENCE .
-                    BUILD missing
-                    REMOTE conan-center
-                    SETTINGS ${settings})
+conan_cmake_install(
+    PATH_OR_REFERENCE ${CMAKE_SOURCE_DIR}/conanfile.txt
+    BUILD missing
+    REMOTE conan-center
+    SETTINGS ${settings}
+)
 
 
 find_package(benchmark REQUIRED)
