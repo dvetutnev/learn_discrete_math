@@ -1,6 +1,7 @@
 [requires]
 benchmark/1.5.3
 gtest/cci.20210126
+pprint/0.9.1
 
 [generators]
 cmake_find_package

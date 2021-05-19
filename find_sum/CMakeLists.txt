@@ -1,2 +1,2 @@
 add_executable(test_find_sum_generator test_generator.cpp)
-target_link_libraries(test_find_sum_generator GTest::gtest_main)
+target_link_libraries(test_find_sum_generator GTest::gtest_main pprint::pprint)
