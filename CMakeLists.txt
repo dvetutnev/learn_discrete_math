@@ -1,29 +1,44 @@
 # Learning discrete mathematics
-# Dmitriy Vetutnev, 2019
+# Dmitriy Vetutnev, 2019, 2021
 
-cmake_minimum_required(VERSION 3.9)
+
+cmake_minimum_required(VERSION 3.12.4)
 project(learn_discrete_math CXX)
 
-set(CMAKE_CXX_STANDARD 14)
+
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
+list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-option(BENCHMARK_ENABLE_TESTING "" OFF)
-option(BENCHMARK_ENABLE_INSTALL "" OFF)
-add_subdirectory(benchmark)
+
+include(conan.cmake)
+
+conan_check(VERSION 1.35.0 REQUIRED)
+conan_cmake_configure(REQUIRES benchmark/1.5.3 gtest/cci.20210126
+                      GENERATORS cmake_find_package)
+conan_cmake_autodetect(settings)
+conan_cmake_install(PATH_OR_REFERENCE .
+                    BUILD missing
+                    REMOTE conan-center
+                    SETTINGS ${settings})
+
+
+find_package(benchmark REQUIRED)
+find_package(GTest REQUIRED)
+
 
 enable_testing()
 
+
 include(towns_generator/towns_generator.cmake)
 add_library(shortest_way_obj OBJECT shortest_way/shortest_way.cpp)
+
 
 add_executable(shortest_way shortest_way/main.cpp $<TARGET_OBJECTS:shortest_way_obj>)
 add_test(
@@ -33,7 +48,7 @@ add_test(
 )
 
 add_executable(shortest_way_benchmark shortest_way/benchmark.cpp $<TARGET_OBJECTS:shortest_way_obj>)
-target_link_libraries(shortest_way_benchmark benchmark)
+target_link_libraries(shortest_way_benchmark benchmark::benchmark)
 add_test(
     NAME shortest_way_benchmark
     COMMAND shortest_way_benchmark
