@@ -54,3 +54,6 @@ add_test(
     COMMAND shortest_way_benchmark
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
+
+
+add_subdirectory(find_sum)
