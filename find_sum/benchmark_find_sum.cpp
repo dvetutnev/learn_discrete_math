@@ -39,7 +39,7 @@ const std::map<std::size_t, Data> sets = {
 void BM_bruteforce(benchmark::State& state) {
     const auto& data = sets.at(state.range(0));
     for (auto _ : state) {
-        bruteforce::findPair(data.set, data.sum);
+        benchmark::DoNotOptimize(bruteforce::findPair(data.set, data.sum));
     }
 }
 
@@ -49,7 +49,7 @@ BENCHMARK(BM_bruteforce)->Arg(10)->Arg(100)->Arg(1000)->Arg(10000);
 void BM_sort(benchmark::State& state) {
     const auto& data = sets.at(state.range(0));
     for (auto _ : state) {
-        sort::findPair(data.set, data.sum);
+        benchmark::DoNotOptimize(sort::findPair(data.set, data.sum));
     }
 }
 
