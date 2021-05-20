@@ -49,7 +49,7 @@ BENCHMARK(BM_bruteforce)->Arg(10)->Arg(100)->Arg(1000)->Arg(10000);
 void BM_sort(benchmark::State& state) {
     const auto& data = sets.at(state.range(0));
     for (auto _ : state) {
-        bruteforce::findPair(data.set, data.sum);
+        sort::findPair(data.set, data.sum);
     }
 }
 
