@@ -113,4 +113,3 @@ TEST(find_sum, sort4) {
 
     ASSERT_EQ(*result, pair);
 }
-

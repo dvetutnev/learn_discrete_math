@@ -1,4 +1,5 @@
 #include "generator.h"
+#include "find_sum.h"
 
 #include <gtest/gtest.h>
 #include <pprint.hpp>
@@ -23,4 +24,18 @@ TEST(find_sum_generator, generateSet) {
     auto set = generateSet(117);
     pprint::PrettyPrinter printer;
     printer.print(set);
+}
+
+
+TEST(find_sum_generator, chance_sum) {
+    std::size_t count = 1;
+    for (;; count++) {
+        auto set = generateSet(103);
+        auto result = bruteforce::findPair(set, 513);
+        if (result) {
+            break;
+        }
+    }
+
+    std::cout << "Iterations count: " << count << std::endl;
 }

@@ -16,11 +16,11 @@ inline auto getRandomGenerator(std::size_t a, std::size_t b) {
 }
 
 
-inline std::vector<int> generateSet(std::size_t size) {
+inline std::vector<std::size_t> generateSet(std::size_t size) {
     std::size_t hight = std::max(999ul, size);
     auto generator = getRandomGenerator(1, hight);
 
-    std::vector<int> result;
+    std::vector<std::size_t> result;
     result.reserve(size);
 
     do {

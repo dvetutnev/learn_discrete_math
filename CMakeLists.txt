@@ -42,19 +42,11 @@ add_library(shortest_way_obj OBJECT shortest_way/shortest_way.cpp)
 
 
 add_executable(shortest_way shortest_way/main.cpp $<TARGET_OBJECTS:shortest_way_obj>)
-add_test(
-    NAME shortest_way
-    COMMAND shortest_way
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-)
+add_test(NAME shortest_way COMMAND shortest_way)
 
 add_executable(shortest_way_benchmark shortest_way/benchmark.cpp $<TARGET_OBJECTS:shortest_way_obj>)
 target_link_libraries(shortest_way_benchmark benchmark::benchmark)
-add_test(
-    NAME shortest_way_benchmark
-    COMMAND shortest_way_benchmark
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-)
+add_test(NAME shortest_way_benchmark COMMAND shortest_way_benchmark)
 
 
 add_subdirectory(find_sum)
