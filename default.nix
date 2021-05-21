@@ -1,7 +1,7 @@
 { pkgs ? import <nixpkgs> {} }:
 
 with pkgs; stdenv.mkDerivation {
-  name = "fart-checker";
+  name = "learn_discrete_math";
   nativeBuildInputs = [
     cmake
     conan

@@ -1,5 +1,6 @@
-#include <generator.h>
-#include <find_sum.h>
+#include "generator.h"
+#include "find_sum.h"
+
 #include <benchmark/benchmark.h>
 
 #include <map>

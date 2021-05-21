@@ -1,8 +1,6 @@
 #include "find_sum.h"
 #include <gtest/gtest.h>
 
-#include <set>
-
 
 namespace internal {
 
