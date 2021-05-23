@@ -6,6 +6,7 @@
 #include <utility>
 #include <optional>
 #include <cassert>
+#include <unordered_set>
 
 
 namespace bruteforce {
@@ -35,7 +36,7 @@ inline std::optional<std::pair<std::size_t, std::size_t>> findPair(const std::ve
 }
 
 
-namespace sort {
+namespace sort::bad {
 
 
 inline std::optional<std::pair<std::size_t, std::size_t>> findPair(const std::vector<std::size_t>& input, std::size_t sum) {
@@ -59,6 +60,38 @@ inline std::optional<std::pair<std::size_t, std::size_t>> findPair(const std::ve
         if (a + b == sum) {
             return std::make_pair(a, b);
         }
+    }
+
+    return std::nullopt;
+}
+
+
+}
+
+
+namespace sort {
+
+
+inline std::optional<std::pair<std::size_t, std::size_t>> findPair(const std::vector<std::size_t>& input, std::size_t sum) {
+    std::unordered_set<std::size_t> set;
+
+    for (std::size_t i : input) {
+        auto diff = sum - i;
+        if (diff <= 0) {
+            continue;
+        }
+
+        // Unique numbers
+        if (diff == i) {
+            continue;
+        }
+
+        if (set.find(diff) == std::end(set)) {
+            set.insert(i);
+            continue;
+        }
+
+        return std::make_pair(i, diff);
     }
 
     return std::nullopt;
