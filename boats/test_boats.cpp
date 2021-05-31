@@ -11,18 +11,6 @@
 // Могут располагаться горизонтально и вертикально
 // Необходимо подсчитать количество кораблей.
 
-TEST(boats, empty) {
-    Matrix matrix = {
-        {0, 0, 0, 0},
-        {0, 0, 0, 0},
-        {0, 0, 0, 0},
-        {0, 0, 0, 0}
-    };
-
-    std::size_t result = calcBoats(matrix);
-    ASSERT_EQ(result, 0);
-}
-
 TEST(boats, a) {
     Matrix matrix = {
         {4, 0, 0, 0},
@@ -63,6 +51,30 @@ TEST(boats, d) {
     Matrix matrix = {
         {2, 0, 0, 4},
         {2, 0, 0, 4},
+        {0, 0, 0, 4},
+        {1, 0, 0, 4}
+    };
+
+    std::size_t result = calcBoats(matrix);
+    ASSERT_EQ(result, 3);
+}
+
+TEST(boats, e) {
+    Matrix matrix = {
+        {2, 0, 0, 4},
+        {2, 0, 0, 4},
+        {0, 1, 0, 4},
+        {0, 0, 0, 4}
+    };
+
+    std::size_t result = calcBoats(matrix);
+    ASSERT_EQ(result, 3);
+}
+
+TEST(boats, f) {
+    Matrix matrix = {
+        {2, 0, 0, 4},
+        {2, 0, 0, 4},
         {0, 1, 0, 4},
         {1, 0, 0, 4}
     };
@@ -71,7 +83,7 @@ TEST(boats, d) {
     ASSERT_EQ(result, 4);
 }
 
-TEST(boats, e) {
+TEST(boats, g) {
     Matrix matrix = {
         {4, 4, 4, 4},
         {0, 0, 0, 0},
@@ -83,7 +95,7 @@ TEST(boats, e) {
     ASSERT_EQ(result, 2);
 }
 
-TEST(boats, f) {
+TEST(boats, h) {
     Matrix matrix = {
         {3, 3, 3, 0},
         {0, 0, 0, 1},
