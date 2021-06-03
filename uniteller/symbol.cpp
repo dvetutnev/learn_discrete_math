@@ -26,7 +26,7 @@ bool Symbol::increment() {
 
     for (;;) {
         if (value < top) {
-            value++;
+            ++value;
         }
         else {
             value = bottom;
