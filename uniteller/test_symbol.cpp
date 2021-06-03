@@ -1,60 +1,6 @@
+#include "symbol.h"
+
 #include <gtest/gtest.h>
-
-#include <vector>
-#include <algorithm>
-#include <stdexcept>
-
-
-class Symbol
-{
-public:
-    Symbol(char);
-
-    char get() const;
-    bool increment();
-
-private:
-    char value;
-    const std::vector<char> excluded = {'D', 'F', 'G', 'J', 'M', 'Q', 'V'};
-};
-
-Symbol::Symbol(char c) {
-    if (c < 'A' || c > 'Z') {
-        throw std::logic_error{"Invalid symbol"};
-    }
-
-    auto it = std::find(std::begin(excluded), std::end(excluded), c);
-    if (it != std::end(excluded)) {
-        throw std::logic_error{"Invalid symbol"};
-    }
-
-    value = c;
-}
-
-char Symbol::get() const {
-    return value;
-}
-
-bool Symbol::increment() {
-    bool isOverflow = false;
-
-    for (;;) {
-        if (value < 'Z') {
-            value++;
-        }
-        else {
-            value = 'A';
-            isOverflow = true;
-        }
-
-        auto it = std::find(std::begin(excluded), std::end(excluded), value);
-        if (it == std::end(excluded)) {
-            break;
-        }
-    }
-
-    return isOverflow;
-}
 
 
 TEST(Symbol, ctor) {
