@@ -36,8 +36,16 @@ char Symbol::get() const {
 }
 
 bool Symbol::increment() {
+    bool isOverflow = false;
+
     for (;;) {
-        value++;
+        if (value < 'Z') {
+            value++;
+        }
+        else {
+            value = 'A';
+            isOverflow = true;
+        }
 
         auto it = std::find(std::begin(excluded), std::end(excluded), value);
         if (it == std::end(excluded)) {
@@ -45,7 +53,7 @@ bool Symbol::increment() {
         }
     }
 
-    return false;
+    return isOverflow;
 }
 
 
@@ -64,11 +72,13 @@ TEST(Symbol, ctor) {
     ASSERT_ANY_THROW( Symbol{'V'}; );
 }
 
+
 TEST(Symbol, increment) {
     Symbol s{'B'};
     s.increment();
     ASSERT_EQ(s.get(), 'C');
 }
+
 
 TEST(Symbol, skip_D) {
     Symbol s{'C'};
@@ -104,4 +114,15 @@ TEST(Symbol, excluded_V) {
     Symbol s{'U'};
     s.increment();
     ASSERT_EQ(s.get(), 'W');
+}
+
+
+TEST(Symbol, overflow) {
+    Symbol s{'Y'};
+
+    ASSERT_FALSE(s.increment());
+    ASSERT_EQ(s.get(), 'Z');
+
+    ASSERT_TRUE(s.increment());
+    ASSERT_EQ(s.get(), 'A');
 }
