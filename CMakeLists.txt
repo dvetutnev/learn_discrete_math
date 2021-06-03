@@ -51,3 +51,4 @@ add_test(NAME shortest_way_benchmark COMMAND shortest_way_benchmark)
 
 add_subdirectory(find_sum)
 add_subdirectory(boats)
+add_subdirectory(uniteller)
