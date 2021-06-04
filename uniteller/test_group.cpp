@@ -33,3 +33,19 @@ TEST(Group, get) {
     Group g{initValue};
     ASSERT_EQ(g.get(), "C7-B8-A9");
 }
+
+TEST(Group, set) {
+    std::vector<Item> initValue = {
+        {'E', '7'}
+    };
+    Group g{initValue};
+
+    std::vector<Item> newValue = {
+        {'A', '1'},
+        {'B', '2'},
+        {'C', '3'}
+    };
+    g.set(newValue);
+
+    ASSERT_EQ(g.get(), "C3-B2-A1");
+}

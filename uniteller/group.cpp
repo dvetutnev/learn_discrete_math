@@ -3,11 +3,19 @@
 #include <stdexcept>
 
 
-Group::Group(const std::vector<Item>& initValue) {
-    if (initValue.empty() || initValue.size() > 10) {
+namespace {
+
+void checkValue(const std::vector<Item>& value) {
+    if (value.empty() || value.size() > 10) {
         throw std::logic_error{"Invalid value"};
     }
+}
 
+} // Anonymous namespace
+
+
+Group::Group(const std::vector<Item>& initValue) {
+    checkValue(initValue);
     chunks = initValue;
 }
 
@@ -20,4 +28,9 @@ std::string Group::get() const {
     }
 
     return result;
+}
+
+void Group::set(const std::vector<Item>& value) {
+    checkValue(value);
+    chunks = value;
 }

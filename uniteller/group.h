@@ -11,6 +11,7 @@ public:
     Group(const std::vector<Item>&);
 
     std::string get() const;
+    void set(const std::vector<Item>&);
 
 private:
     std::vector<Item> chunks;
