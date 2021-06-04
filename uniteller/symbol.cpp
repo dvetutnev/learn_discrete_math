@@ -41,3 +41,5 @@ bool Symbol::increment() {
 
     return isOverflow;
 }
+
+const std::vector<char> Symbol::excluded = {'D', 'F', 'G', 'J', 'M', 'Q', 'V'};

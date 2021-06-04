@@ -6,12 +6,15 @@ class Digit
 public:
     Digit(char);
 
+    Digit(const Digit&) = default;
+    Digit& operator= (const Digit&) = default;
+
     char get() const;
     bool increment();
 
 private:
     char value;
 
-    const char bottom = '1';
-    const char top = '9';
+    static const char bottom = '1';
+    static const char top = '9';
 };

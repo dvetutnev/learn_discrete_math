@@ -23,3 +23,13 @@ TEST(Group, ctor_overflow) {
     };
     ASSERT_ANY_THROW( Group{initValue} );
 }
+
+TEST(Group, get) {
+    std::vector<Item> initValue = {
+        {'A', '9'},
+        {'B', '8'},
+        {'C', '7'}
+    };
+    Group g{initValue};
+    ASSERT_EQ(g.get(), "C7-B8-A9");
+}
