@@ -3,6 +3,7 @@
 #include "group.h"
 
 #include <vector>
+#include <mutex>
 
 
 class Id
@@ -18,6 +19,7 @@ public:
 
 private:
     std::vector<Group> chunks;
+    mutable std::mutex mtx;
 
     bool increment(std::vector<Group>::iterator);
 
