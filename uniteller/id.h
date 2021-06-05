@@ -1,6 +1,6 @@
 #pragma once
 
-#include "item.h"
+#include "group.h"
 
 #include <vector>
 
@@ -8,16 +8,16 @@
 class Id
 {
 public:
-    Id(const std::vector<Item>&);
+    Id(const std::vector<Group>&);
 
     std::string get() const;
-    void set(const std::vector<Item>&);
+    void set(const std::vector<Group>&);
     bool increment();
 
 private:
-    std::vector<Item> chunks;
+    std::vector<Group> chunks;
 
-    bool increment(std::vector<Item>::iterator);
+    bool increment(std::vector<Group>::iterator);
 
     static const std::size_t maxChunks = 10;
 };

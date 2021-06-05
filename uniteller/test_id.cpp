@@ -4,11 +4,11 @@
 
 
 TEST(Id, ctor_empty) {
-    ASSERT_ANY_THROW( Id{ std::vector<Item>{} }; );
+    ASSERT_ANY_THROW( Id{ std::vector<Group>{} }; );
 }
 
 TEST(Id, ctor_overflow) {
-    std::vector<Item> initValue = {
+    std::vector<Group> initValue = {
         {'A', '1'},
         {'A', '2'},
         {'A', '3'},
@@ -25,7 +25,7 @@ TEST(Id, ctor_overflow) {
 }
 
 TEST(Id, get) {
-    std::vector<Item> initValue = {
+    std::vector<Group> initValue = {
         {'A', '9'},
         {'B', '8'},
         {'C', '7'}
@@ -35,12 +35,12 @@ TEST(Id, get) {
 }
 
 TEST(Id, set) {
-    std::vector<Item> initValue = {
+    std::vector<Group> initValue = {
         {'E', '7'}
     };
     Id id{initValue};
 
-    std::vector<Item> newValue = {
+    std::vector<Group> newValue = {
         {'A', '1'},
         {'B', '2'},
         {'C', '3'}
@@ -51,7 +51,7 @@ TEST(Id, set) {
 }
 
 TEST(Id, increment) {
-    std::vector<Item> initValue = {
+    std::vector<Group> initValue = {
         {'K', '6'}
     };
     Id id{initValue};
@@ -61,7 +61,7 @@ TEST(Id, increment) {
 }
 
 TEST(Id, add_group) {
-    std::vector<Item> initValue = {
+    std::vector<Group> initValue = {
         {'Z', '9'}
     };
     Id id{initValue};
@@ -71,7 +71,7 @@ TEST(Id, add_group) {
 }
 
 TEST(Id, increment_next_group) {
-    std::vector<Item> initValue = {
+    std::vector<Group> initValue = {
         {'Z', '9'},
         {'A', '1'}
     };
@@ -82,7 +82,7 @@ TEST(Id, increment_next_group) {
 }
 
 TEST(Id, add_group2) {
-    std::vector<Item> initValue = {
+    std::vector<Group> initValue = {
         {'Z', '9'},
         {'Z', '9'}
     };
@@ -93,7 +93,7 @@ TEST(Id, add_group2) {
 }
 
 TEST(Id, increment_next_group2) {
-    std::vector<Item> initValue = {
+    std::vector<Group> initValue = {
         {'Z', '9'},
         {'Z', '9'},
         {'B', '9'}
@@ -105,7 +105,7 @@ TEST(Id, increment_next_group2) {
 }
 
 TEST(Id, overflow) {
-    std::vector<Item> initValue = {
+    std::vector<Group> initValue = {
         {'Z', '8'}, // 1
         {'Z', '9'}, // 2
         {'Z', '9'}, // 3

@@ -6,10 +6,10 @@
 #include <string>
 
 
-class Item
+class Group
 {
 public:
-    Item(const Symbol&, const Digit&);
+    Group(const Symbol&, const Digit&);
 
     std::string get() const;
     bool increment();

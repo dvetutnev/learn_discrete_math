@@ -5,7 +5,7 @@
 
 namespace {
 
-void checkValue(const std::vector<Item>& value) {
+void checkValue(const std::vector<Group>& value) {
     if (value.empty() || value.size() > 10) {
         throw std::logic_error{"Invalid value"};
     }
@@ -14,13 +14,13 @@ void checkValue(const std::vector<Item>& value) {
 } // Anonymous namespace
 
 
-Id::Id(const std::vector<Item>& initValue) {
+Id::Id(const std::vector<Group>& initValue) {
     checkValue(initValue);
     chunks = initValue;
 }
 
 std::string Id::get() const {
-    const Item& first = chunks.back();
+    const Group& first = chunks.back();
     std::string result = first.get();
 
     for (auto it = std::next(std::rbegin(chunks)); it != std::rend(chunks); ++it) {
@@ -30,7 +30,7 @@ std::string Id::get() const {
     return result;
 }
 
-void Id::set(const std::vector<Item>& value) {
+void Id::set(const std::vector<Group>& value) {
     checkValue(value);
     chunks = value;
 }
@@ -39,7 +39,7 @@ bool Id::increment() {
     return increment(std::begin(chunks));
 }
 
-bool Id::increment(std::vector<Item>::iterator currentIt) {
+bool Id::increment(std::vector<Group>::iterator currentIt) {
     bool isAllOverflow = false;
 
     bool isOverflow = currentIt->increment();
@@ -53,7 +53,7 @@ bool Id::increment(std::vector<Item>::iterator currentIt) {
                 chunks.emplace_back('A', '1');
             }
             else {
-                chunks = std::vector<Item>{ {'A', '1'} };
+                chunks = std::vector<Group>{ {'A', '1'} };
                 isAllOverflow = true;
             }
         }

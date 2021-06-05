@@ -3,8 +3,8 @@ add_executable(test_id
     test_symbol.cpp
     digit.cpp
     test_digit.cpp
-    item.cpp
-    test_item.cpp
+    group.cpp
+    test_group.cpp
     id.cpp
     test_id.cpp)
 
