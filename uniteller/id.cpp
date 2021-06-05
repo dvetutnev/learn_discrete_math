@@ -1,4 +1,4 @@
-#include "group.h"
+#include "id.h"
 
 #include <stdexcept>
 
@@ -14,12 +14,12 @@ void checkValue(const std::vector<Item>& value) {
 } // Anonymous namespace
 
 
-Group::Group(const std::vector<Item>& initValue) {
+Id::Id(const std::vector<Item>& initValue) {
     checkValue(initValue);
     chunks = initValue;
 }
 
-std::string Group::get() const {
+std::string Id::get() const {
     const Item& first = chunks.back();
     std::string result = first.get();
 
@@ -30,16 +30,16 @@ std::string Group::get() const {
     return result;
 }
 
-void Group::set(const std::vector<Item>& value) {
+void Id::set(const std::vector<Item>& value) {
     checkValue(value);
     chunks = value;
 }
 
-bool Group::increment() {
+bool Id::increment() {
     return increment(std::begin(chunks));
 }
 
-bool Group::increment(std::vector<Item>::iterator currentIt) {
+bool Id::increment(std::vector<Item>::iterator currentIt) {
     bool isAllOverflow = false;
 
     bool isOverflow = currentIt->increment();

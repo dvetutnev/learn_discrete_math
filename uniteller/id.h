@@ -5,10 +5,10 @@
 #include <vector>
 
 
-class Group
+class Id
 {
 public:
-    Group(const std::vector<Item>&);
+    Id(const std::vector<Item>&);
 
     std::string get() const;
     void set(const std::vector<Item>&);

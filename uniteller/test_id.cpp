@@ -1,13 +1,13 @@
-#include "group.h"
+#include "id.h"
 
 #include <gtest/gtest.h>
 
 
-TEST(Group, ctor_empty) {
-    ASSERT_ANY_THROW( Group{ std::vector<Item>{} }; );
+TEST(Id, ctor_empty) {
+    ASSERT_ANY_THROW( Id{ std::vector<Item>{} }; );
 }
 
-TEST(Group, ctor_overflow) {
+TEST(Id, ctor_overflow) {
     std::vector<Item> initValue = {
         {'A', '1'},
         {'A', '2'},
@@ -21,90 +21,90 @@ TEST(Group, ctor_overflow) {
         {'B', '1'},
         {'C', '1'},
     };
-    ASSERT_ANY_THROW( Group{initValue} );
+    ASSERT_ANY_THROW( Id{initValue} );
 }
 
-TEST(Group, get) {
+TEST(Id, get) {
     std::vector<Item> initValue = {
         {'A', '9'},
         {'B', '8'},
         {'C', '7'}
     };
-    Group g{initValue};
-    ASSERT_EQ(g.get(), "C7-B8-A9");
+    Id id{initValue};
+    ASSERT_EQ(id.get(), "C7-B8-A9");
 }
 
-TEST(Group, set) {
+TEST(Id, set) {
     std::vector<Item> initValue = {
         {'E', '7'}
     };
-    Group g{initValue};
+    Id id{initValue};
 
     std::vector<Item> newValue = {
         {'A', '1'},
         {'B', '2'},
         {'C', '3'}
     };
-    g.set(newValue);
+    id.set(newValue);
 
-    ASSERT_EQ(g.get(), "C3-B2-A1");
+    ASSERT_EQ(id.get(), "C3-B2-A1");
 }
 
-TEST(Group, increment) {
+TEST(Id, increment) {
     std::vector<Item> initValue = {
         {'K', '6'}
     };
-    Group g{initValue};
+    Id id{initValue};
 
-    g.increment();
-    ASSERT_EQ(g.get(), "K7");
+    id.increment();
+    ASSERT_EQ(id.get(), "K7");
 }
 
-TEST(Group, overflow_item) {
+TEST(Id, add_group) {
     std::vector<Item> initValue = {
         {'Z', '9'}
     };
-    Group g{initValue};
+    Id id{initValue};
 
-    g.increment();
-    ASSERT_EQ(g.get(), "A1-A1");
+    id.increment();
+    ASSERT_EQ(id.get(), "A1-A1");
 }
 
-TEST(Group, overflow_item2) {
+TEST(Id, increment_next_group) {
     std::vector<Item> initValue = {
         {'Z', '9'},
         {'A', '1'}
     };
-    Group g{initValue};
+    Id id{initValue};
 
-    g.increment();
-    ASSERT_EQ(g.get(), "A2-A1");
+    id.increment();
+    ASSERT_EQ(id.get(), "A2-A1");
 }
 
-TEST(Group, overflow_several_items) {
+TEST(Id, add_group2) {
     std::vector<Item> initValue = {
         {'Z', '9'},
         {'Z', '9'}
     };
-    Group g{initValue};
+    Id id{initValue};
 
-    g.increment();
-    ASSERT_EQ(g.get(), "A1-A1-A1");
+    id.increment();
+    ASSERT_EQ(id.get(), "A1-A1-A1");
 }
 
-TEST(Group, overflow_several_items2) {
+TEST(Id, increment_next_group2) {
     std::vector<Item> initValue = {
         {'Z', '9'},
         {'Z', '9'},
         {'B', '9'}
     };
-    Group g{initValue};
+    Id id{initValue};
 
-    g.increment();
-    ASSERT_EQ(g.get(), "C1-A1-A1");
+    id.increment();
+    ASSERT_EQ(id.get(), "C1-A1-A1");
 }
 
-TEST(Group, overflow_all) {
+TEST(Id, overflow) {
     std::vector<Item> initValue = {
         {'Z', '8'}, // 1
         {'Z', '9'}, // 2
@@ -117,12 +117,12 @@ TEST(Group, overflow_all) {
         {'Z', '9'}, // 9
         {'Z', '9'}, // 10
     };
-    Group g{initValue};
+    Id id{initValue};
 
-    ASSERT_FALSE(g.increment());
+    ASSERT_FALSE(id.increment());
     //                 1  2  3  4  5  6  7  8  9  10
-    ASSERT_EQ(g.get(), "Z9-Z9-Z9-Z9-Z9-Z9-Z9-Z9-Z9-Z9");
+    ASSERT_EQ(id.get(), "Z9-Z9-Z9-Z9-Z9-Z9-Z9-Z9-Z9-Z9");
 
-    ASSERT_TRUE(g.increment());
-    ASSERT_EQ(g.get(), "A1");
+    ASSERT_TRUE(id.increment());
+    ASSERT_EQ(id.get(), "A1");
 }
