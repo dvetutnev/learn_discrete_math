@@ -12,7 +12,9 @@ public:
 
     std::string get() const;
     void set(const std::vector<Group>&);
+
     bool increment();
+    std::string next();
 
 private:
     std::vector<Group> chunks;

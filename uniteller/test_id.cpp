@@ -120,9 +120,18 @@ TEST(Id, overflow) {
     Id id{initValue};
 
     ASSERT_FALSE(id.increment());
-    //                 1  2  3  4  5  6  7  8  9  10
+    //                   1  2  3  4  5  6  7  8  9  10
     ASSERT_EQ(id.get(), "Z9-Z9-Z9-Z9-Z9-Z9-Z9-Z9-Z9-Z9");
 
     ASSERT_TRUE(id.increment());
     ASSERT_EQ(id.get(), "A1");
+}
+
+TEST(Group, next) {
+    std::vector<Group> initValue = {
+        {'A', '4'},
+        {'C', '2'}
+    };
+    Id id{initValue};
+    ASSERT_EQ(id.next(), "C2-A5");
 }

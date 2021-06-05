@@ -61,3 +61,8 @@ bool Id::increment(std::vector<Group>::iterator currentIt) {
 
     return isAllOverflow;
 }
+
+std::string Id::next() {
+    increment();
+    return get();
+}
