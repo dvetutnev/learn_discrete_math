@@ -19,5 +19,5 @@ private:
 
     static const char bottom = 'A';
     static const char top = 'Z';
-    static const std::vector<char> excluded;
+    static const inline std::vector<char> excluded = {'D', 'F', 'G', 'J', 'M', 'Q', 'V'};;
 };
