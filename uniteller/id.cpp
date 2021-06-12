@@ -20,7 +20,7 @@ Id::Id(const std::vector<Group>& initValue) {
 }
 
 std::string Id::get() const {
-    std::lock_guard{mtx};
+    std::lock_guard lock{mtx};
 
     const Group& first = chunks.back();
     std::string result = first.get();
@@ -33,14 +33,14 @@ std::string Id::get() const {
 }
 
 void Id::set(const std::vector<Group>& value) {
-    std::lock_guard{mtx};
+    std::lock_guard lock{mtx};
 
     checkValue(value);
     chunks = value;
 }
 
 bool Id::increment() {
-    std::lock_guard{mtx};
+    std::lock_guard lock{mtx};
 
     return increment(std::begin(chunks));
 }
