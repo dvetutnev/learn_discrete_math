@@ -1,0 +1,3 @@
+add_executable(test_reverse_words test_reverse_words.cpp)
+target_link_libraries(test_reverse_words GTest::gtest_main)
+add_test(NAME test_reverse_words COMMAND test_reverse_words)
