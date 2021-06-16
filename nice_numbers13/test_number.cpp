@@ -202,3 +202,37 @@ TEST(NiceNumber13_Number, less2) {
     EXPECT_TRUE(a < b);
     EXPECT_TRUE(b < c);
 }
+
+
+TEST(NiceNumbers13_Number, ctor_leadingZero) {
+    Number a{{
+        Digit{0},
+        Digit{0},
+        Digit{0},
+        Digit{9},
+        Digit{8},
+        Digit{7},
+        Digit{6},
+        Digit{5},
+        Digit{4},
+        Digit{3},
+        Digit{2},
+        Digit{1},
+        Digit{0},
+    }};
+
+    Number b{{
+        Digit{9},
+        Digit{8},
+        Digit{7},
+        Digit{6},
+        Digit{5},
+        Digit{4},
+        Digit{3},
+        Digit{2},
+        Digit{1},
+        Digit{0},
+    }};
+
+    ASSERT_EQ(a, b);
+};

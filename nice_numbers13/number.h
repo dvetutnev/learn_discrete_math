@@ -1,7 +1,10 @@
 #pragma once
 
 #include "digit.h"
+
 #include <array>
+#include <initializer_list>
+#include <algorithm>
 
 
 class Number
@@ -27,6 +30,7 @@ public:
     };
 
     Number(const Value& v = defaultValue);
+    Number(std::initializer_list<Digit>);
 
     Number(const Number&) = default;
     Number& operator= (const Number&) = default;
@@ -46,6 +50,15 @@ inline Number::Number(const Value& v)
     :
       value{v}
 {}
+
+inline Number::Number(std::initializer_list<Digit> l)
+{
+    auto itL = std::rbegin(l);
+    auto itV = std::rbegin(value);
+    for (; itL != std::rend(l) && itV != std::rend(value); ++itL, ++itV) {
+        *itV = *itL;
+    }
+}
 
 
 inline Number::Value::const_iterator Number::begin() const {
