@@ -10,9 +10,17 @@ TEST(NiceNumbers13_Digit, ctor) {
     EXPECT_ANY_THROW(Digit(42));
 }
 
+
 TEST(NiceNumbers13_Digit, equal) {
     EXPECT_EQ(Digit(5), Digit{5});
     EXPECT_NE(Digit(8), Digit{5});
+}
+
+
+TEST(NiceNumbers13, less) {
+    EXPECT_TRUE(Digit{1} < Digit{2});
+    EXPECT_FALSE(Digit{2} < Digit{1});
+    EXPECT_FALSE(Digit{2} < Digit{2});
 }
 
 
