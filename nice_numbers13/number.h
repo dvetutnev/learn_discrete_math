@@ -7,6 +7,7 @@
 class Number
 {
 public:
+    // Разряды расположены от старшего к младшему
     using Value = std::array<Digit, 13>;
 
     inline static const Value defaultValue = {
@@ -30,6 +31,8 @@ public:
     Number(const Number&) = default;
     Number& operator= (const Number&) = default;
 
+    struct Equal;
+
 private:
     Value value;
 };
@@ -39,3 +42,20 @@ inline Number::Number(const Value& v)
     :
       value{v}
 {}
+
+
+struct Number::Equal
+{
+    bool operator()(const Number& a, const Number& b) const {
+        return a.value == b.value;
+    }
+};
+
+
+inline bool operator== (const Number& a, const Number& b) {
+    return Number::Equal{}(a, b);
+}
+
+inline bool operator!= (const Number& a, const Number& b) {
+    return !(a == b);
+}
