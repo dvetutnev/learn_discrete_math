@@ -22,7 +22,7 @@ TEST(NiceNumbers13_Number, ctor) {
     Number b{};
 }
 
-TEST(NiceNumber13_Number, equal) {
+TEST(NiceNumbers13_Number, equal) {
     Number a{{
         Digit{12},
         Digit{11},
@@ -75,7 +75,7 @@ TEST(NiceNumber13_Number, equal) {
     EXPECT_NE(b, c);
 }
 
-TEST(NiceNumber13_Number, equalDefaultValue) {
+TEST(NiceNumbers13_Number, equalDefaultValue) {
     Number a{{
         Digit{0},
         Digit{0},
@@ -97,7 +97,7 @@ TEST(NiceNumber13_Number, equalDefaultValue) {
     EXPECT_EQ(a, b);
 }
 
-TEST(NiceNumber13_Number, less1) {
+TEST(NiceNumbers13_Number, less1) {
     Number a{{
         Digit{1},
         Digit{1},
@@ -150,7 +150,7 @@ TEST(NiceNumber13_Number, less1) {
     EXPECT_FALSE(b < c);
 }
 
-TEST(NiceNumber13_Number, less2) {
+TEST(NiceNumbers13_Number, less2) {
     Number a{{
         Digit{1},
         Digit{1},
@@ -238,7 +238,7 @@ TEST(NiceNumbers13_Number, ctor_leadingZero) {
 };
 
 
-TEST(NiceNumber13_Number, add) {
+TEST(NiceNumbers13_Number, add) {
     Number a{{
         Digit{1},
         Digit{7},
@@ -275,7 +275,7 @@ TEST(NiceNumber13_Number, add) {
     ASSERT_EQ(result, expected);
 }
 
-TEST(NiceNumber13_Number, add_carry) {
+TEST(NiceNumbers13_Number, add_carry) {
     Number a{{
         Digit{1},
         Digit{7},
@@ -312,7 +312,7 @@ TEST(NiceNumber13_Number, add_carry) {
     ASSERT_EQ(result, expected);
 }
 
-TEST(NiceNumber13_Number, add_carry2) {
+TEST(NiceNumbers13_Number, add_carry2) {
     Number a{{
         Digit{1},
         Digit{7},
@@ -349,7 +349,7 @@ TEST(NiceNumber13_Number, add_carry2) {
     ASSERT_EQ(result, expected);
 }
 
-TEST(NiceNumber13_Number, add_overflow) {
+TEST(NiceNumbers13_Number, add_overflow) {
     Number a{{
         Digit{12},  // 1
         Digit{12},  // 2
@@ -367,4 +367,45 @@ TEST(NiceNumber13_Number, add_overflow) {
     }};
 
     ASSERT_ANY_THROW(a + Digit{6});
+}
+
+
+TEST(NiceNumbers13_isNice, yes) {
+    Number n{{
+        Digit{0},   // 1
+        Digit{0},   // 2
+        Digit{5},   // 3
+        Digit{5},   // 4
+        Digit{2},   // 5
+        Digit{3},   // 6
+        Digit{7},   // 7
+        Digit{0},   // 8
+        Digit{5},   // 9
+        Digit{0},   // 10
+        Digit{10},  // 11
+        Digit{0},   // 12
+        Digit{0},   // 13
+    }};
+
+    ASSERT_TRUE(isNice(n));
+}
+
+TEST(NiceNumbers13_isNice, no) {
+    Number n{{
+        Digit{1},   // 1
+        Digit{2},   // 2
+        Digit{3},   // 3
+        Digit{4},   // 4
+        Digit{10},  // 5
+        Digit{11},  // 6
+        Digit{9},   // 7
+        Digit{8},   // 8
+        Digit{8},   // 9
+        Digit{11},  // 10
+        Digit{10},  // 11
+        Digit{11},  // 12
+        Digit{10},  // 13
+    }};
+
+    ASSERT_FALSE(isNice(n));
 }

@@ -130,3 +130,18 @@ inline Number operator+ (Number number, const Digit& digit) {
 
     return number;
 }
+
+
+inline Number digitsSum(Number::Value::const_iterator it, Number::Value::const_iterator end) {
+    Number result;
+    for (; it != end; ++it) {
+        result = result + *it;
+    }
+    return result;
+}
+
+inline bool isNice(const Number& n) {
+    Number left = digitsSum(std::begin(n), std::begin(n) + 6);
+    Number right = digitsSum(std::begin(n) + 7, std::end(n));
+    return left == right;
+}
