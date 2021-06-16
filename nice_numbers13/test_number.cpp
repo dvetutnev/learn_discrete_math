@@ -96,3 +96,109 @@ TEST(NiceNumber13_Number, equalDefaultValue) {
 
     EXPECT_EQ(a, b);
 }
+
+TEST(NiceNumber13_Number, less1) {
+    Number a{{
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{0},
+    }};
+
+    Number b{{
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+    }};
+
+    Number c{{
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+    }};
+
+    EXPECT_TRUE(a < b);
+    EXPECT_FALSE(b < c);
+}
+
+TEST(NiceNumber13_Number, less2) {
+    Number a{{
+        Digit{1},
+        Digit{1},
+        Digit{2},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{0},
+    }};
+
+    Number b{{
+        Digit{1},
+        Digit{1},
+        Digit{3},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+    }};
+
+    Number c{{
+        Digit{1},
+        Digit{2},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+    }};
+
+    EXPECT_TRUE(a < b);
+    EXPECT_TRUE(b < c);
+}

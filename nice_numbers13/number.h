@@ -31,6 +31,10 @@ public:
     Number(const Number&) = default;
     Number& operator= (const Number&) = default;
 
+    Value::const_iterator begin() const;
+    Value::const_iterator end() const;
+
+    struct Less;
     struct Equal;
 
 private:
@@ -44,6 +48,36 @@ inline Number::Number(const Value& v)
 {}
 
 
+inline Number::Value::const_iterator Number::begin() const {
+    return std::begin(value);
+}
+
+inline Number::Value::const_iterator Number::end() const {
+    return std::end(value);
+}
+
+
+struct Number::Less
+{
+    bool operator()(const Number& a, const Number& b) const {
+        auto itA = std::begin(a);
+        auto itB = std::begin(b);
+        for (; itA != std::end(a) && itB != std::end(b); ++itA, ++itB) {
+            if (*itA == *itB) {
+                continue;
+            }
+            else if (*itA < *itB) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        return false;
+    }
+};
+
 struct Number::Equal
 {
     bool operator()(const Number& a, const Number& b) const {
@@ -51,6 +85,10 @@ struct Number::Equal
     }
 };
 
+
+inline bool operator< (const Number& a, const Number& b) {
+    return Number::Less{}(a, b);
+}
 
 inline bool operator== (const Number& a, const Number& b) {
     return Number::Equal{}(a, b);
