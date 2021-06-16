@@ -114,6 +114,19 @@ inline bool operator!= (const Number& a, const Number& b) {
 }
 
 
-inline Number operator+ (Number lhs, const Digit&) {
-    return lhs;
+inline Number operator+ (Number number, const Digit& digit) {
+    auto it = std::rbegin(number.value);
+    Digit::Sum sum = *it + digit;
+    *it = sum.value;
+
+    for (it = std::next(it); sum.carry; ++it) {
+        if (it == std::rend(number.value)) {
+            throw std::runtime_error{"Number::operator+: overflow"};
+        }
+
+        sum = *it + Digit{1};
+        *it = sum.value;
+    }
+
+    return number;
 }
