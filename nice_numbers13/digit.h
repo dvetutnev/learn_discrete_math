@@ -39,7 +39,7 @@ struct Digit::Sum
     bool carry;
 };
 
-Digit::Sum Digit::sum(const Digit& a, const Digit& b) {
+inline Digit::Sum Digit::sum(const Digit& a, const Digit& b) {
     auto s = a.value + b.value;
     if (s <= top) {
         return Sum{
@@ -55,7 +55,7 @@ Digit::Sum Digit::sum(const Digit& a, const Digit& b) {
     }
 }
 
-Digit::Sum operator+ (const Digit& a, const Digit& b) {
+inline Digit::Sum operator+ (const Digit& a, const Digit& b) {
     return Digit::sum(a, b);
 }
 
