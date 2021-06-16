@@ -41,4 +41,33 @@ inline std::size_t calc() {
     return count;
 }
 
+std::size_t calcComp(const Number& sum) {
+    std::size_t count = 0;
+
+    Number n{};
+    Number end{
+        Digit{12},   // 1
+        Digit{12},   // 2
+        Digit{12},   // 3
+        Digit{12},   // 4
+        Digit{12},   // 5
+        Digit{12},   // 6
+    };
+
+
+    while (n != end) {
+        auto beginIt = std::begin(n) + 7;
+        auto endIt = std::end(n);
+
+        Number s = digitsSum(beginIt, endIt);
+        if (s == sum) {
+            count++;
+        }
+
+        n = n + Digit{1};
+    }
+
+    return count;
+}
+
 }

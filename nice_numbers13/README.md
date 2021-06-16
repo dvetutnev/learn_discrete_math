@@ -55,10 +55,57 @@
 Число представим как две половинки, половинки составленны из одного множества цифр, следовательно у есть две группы размером **Nₛ** комбинаций цифр, где каждая комбинация цифр дает сумму **S**.
 По основной формуле комбинаторики число комбинаций половинок цифр **Kₛ** = **Nₛ** × **Nₛ** для каждой суммы **S**.
 
-Максимальная цифра **C**, множество сумм каждой половинки **[0, С × 6]**, верхнняя граница **M** = **C × 6**. Итого общее число красивых числел равно **K** = **K₁** + **K₂** + ⋯ + **Kₘ** = (**N₁** × **N₁**) + (**N₂** × **N₂**) + ⋯ + (**Nₘ** × **Nₘ**).
+Максимальная цифра **C**, множество сумм каждой половинки **[0, С ^ 6]**, верхнняя граница **M** = **C × 6**. Итого общее число красивых числел равно **K** = **K₁** + **K₂** + ⋯ + **Kₘ** = (**N₁** × **N₁**) + (**N₂** × **N₂**) + ⋯ + (**Nₘ** × **Nₘ**).
 
 Теперь нужно нужно научиться считать число возможножных комбинаций цифр **Nₛ**, сумма которых равна **S** (функция **N** = **f(S)**).
 
-Всего есть **6** (размер половинки) групп цифр, каждая группа **[0, C]**
+Это число композиций. Композиций с ограничением по количеству цифр и максимальному значению цифры. Как такое считается совсем непонятно, поэтому опять применим брутфорс.
 
+Отладочная сборка:
 
+```
+nix-shell:~/learn_discrete_math/nice_numbers13]$ ../build/bin/benchmark_nice_numbers13 
+2021-06-17T01:07:50+03:00
+Running ../build/bin/benchmark_nice_numbers13
+Run on (8 X 4000 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x4)
+  L1 Instruction 32 KiB (x4)
+  L2 Unified 256 KiB (x4)
+  L3 Unified 8192 KiB (x1)
+Load Average: 0.38, 0.37, 0.47
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+***WARNING*** Library was built as DEBUG. Timings may be affected.
+--------------------------------------------------------
+Benchmark              Time             CPU   Iterations
+--------------------------------------------------------
+BM_calcComp_1 2288749082 ns   2288682742 ns            1
+BM_calcComp_2 2276701270 ns   2276678209 ns            1
+```
+
+~ 2 секунды
+
+Release:
+
+```
+[nix-shell:~/learn_discrete_math]$ b/bin/benchmark_nice_numbers13 
+2021-06-17T01:19:03+03:00
+Running b/bin/benchmark_nice_numbers13
+Run on (8 X 4000 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x4)
+  L1 Instruction 32 KiB (x4)
+  L2 Unified 256 KiB (x4)
+  L3 Unified 8192 KiB (x1)
+Load Average: 0.86, 0.57, 0.52
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+--------------------------------------------------------
+Benchmark              Time             CPU   Iterations
+--------------------------------------------------------
+BM_calcComp_1  103952517 ns    103949022 ns            5
+BM_calcComp_2  103169379 ns    103165865 ns            7
+```
+
+~ 100 милисекунд
+
+Мдя, (~5M * 0.1) / 3600 ~= 138 часов.
