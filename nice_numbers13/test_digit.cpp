@@ -23,7 +23,7 @@ TEST(NiceNumbers13_Digit, sum) {
     Digit::Sum result = a + b;
 
     EXPECT_EQ(result.value, Digit{5});
-    EXPECT_EQ(result.carry, Digit{0});
+    EXPECT_FALSE(result.carry);
 }
 
 TEST(NiceNumbers13_Digit, sum_carry) {
@@ -33,7 +33,7 @@ TEST(NiceNumbers13_Digit, sum_carry) {
     Digit::Sum result = a + b;
 
     EXPECT_EQ(result.value, Digit{3});
-    EXPECT_EQ(result.carry, Digit{1});
+    EXPECT_TRUE(result.carry);
 }
 
 TEST(NiceNumbers13_Digit, sum_carry2) {
@@ -43,5 +43,5 @@ TEST(NiceNumbers13_Digit, sum_carry2) {
     Digit::Sum result = a + b;
 
     EXPECT_EQ(result.value, Digit{12});
-    EXPECT_EQ(result.carry, Digit{1});
+    EXPECT_TRUE(result.carry);
 }

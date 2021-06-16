@@ -36,7 +36,7 @@ inline Digit::Digit(unsigned char v)
 struct Digit::Sum
 {
     Digit value;
-    Digit carry;
+    bool carry;
 };
 
 Digit::Sum Digit::sum(const Digit& a, const Digit& b) {
@@ -44,13 +44,13 @@ Digit::Sum Digit::sum(const Digit& a, const Digit& b) {
     if (s <= top) {
         return Sum{
             Digit{static_cast<unsigned char>(s)},
-            Digit{0}
+            false
         };
     }
     else {
         return Sum{
             Digit{static_cast<unsigned char>(s - top)},
-            Digit{1}
+            true
         };
     }
 }
