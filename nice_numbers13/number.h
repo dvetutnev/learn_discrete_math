@@ -38,6 +38,8 @@ public:
     Value::const_iterator begin() const;
     Value::const_iterator end() const;
 
+    friend Number operator+ (Number, const Digit&);
+
     struct Less;
     struct Equal;
 
@@ -109,4 +111,9 @@ inline bool operator== (const Number& a, const Number& b) {
 
 inline bool operator!= (const Number& a, const Number& b) {
     return !(a == b);
+}
+
+
+inline Number operator+ (Number lhs, const Digit&) {
+    return lhs;
 }

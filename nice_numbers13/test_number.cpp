@@ -236,3 +236,135 @@ TEST(NiceNumbers13_Number, ctor_leadingZero) {
 
     ASSERT_EQ(a, b);
 };
+
+
+TEST(NiceNumber13_Number, add) {
+    Number a{{
+        Digit{1},
+        Digit{7},
+        Digit{2},
+        Digit{9},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{2},
+    }};
+
+    Number expected{{
+        Digit{1},
+        Digit{7},
+        Digit{2},
+        Digit{9},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{7},
+    }};
+
+    Number result = a + Digit{5};
+    ASSERT_EQ(result, expected);
+}
+
+TEST(NiceNumber13_Number, add_carry) {
+    Number a{{
+        Digit{1},
+        Digit{7},
+        Digit{2},
+        Digit{9},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{11},
+    }};
+
+    Number expected{{
+        Digit{1},
+        Digit{7},
+        Digit{2},
+        Digit{9},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{2},
+        Digit{4},
+    }};
+
+    Number result = a + Digit{5};
+    ASSERT_EQ(result, expected);
+}
+
+TEST(NiceNumber13_Number, add_carry2) {
+    Number a{{
+        Digit{1},
+        Digit{7},
+        Digit{2},
+        Digit{9},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{12},
+        Digit{12},
+        Digit{11},
+    }};
+
+    Number expected{{
+        Digit{1},
+        Digit{7},
+        Digit{2},
+        Digit{9},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{1},
+        Digit{2},
+        Digit{1},
+        Digit{1},
+        Digit{6},
+    }};
+
+    Number result = a + Digit{7};
+    ASSERT_EQ(result, expected);
+}
+
+TEST(NiceNumber13_Number, add_overflow) {
+    Number a{{
+        Digit{12},  // 1
+        Digit{12},  // 2
+        Digit{12},  // 3
+        Digit{12},  // 4
+        Digit{12},  // 5
+        Digit{12},  // 6
+        Digit{12},  // 7
+        Digit{12},  // 8
+        Digit{12},  // 9
+        Digit{12},  // 10
+        Digit{12},  // 11
+        Digit{12},  // 12
+        Digit{12},  // 13
+    }};
+
+    ASSERT_ANY_THROW(a + Digit{6});
+}
