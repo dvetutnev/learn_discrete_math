@@ -59,6 +59,16 @@ TEST(NiceNumbers13, D_279) {
     ASSERT_EQ(res, 0);
 }
 
+TEST(NiceNumbers13, D_72) {
+    std::size_t res = D(6, 72);
+    ASSERT_EQ(res, 1);
+}
+
+TEST(NiceNumbers13, D_71) {
+    std::size_t res = D(6, 71);
+    ASSERT_EQ(res, 6);
+}
+
 
 std::size_t calcNiceNumbers13() {
     const std::size_t digits = 6;
