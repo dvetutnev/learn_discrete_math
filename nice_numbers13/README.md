@@ -177,3 +177,66 @@ calcNiceNumbers13(): 707972099627
 
 В итоге изобретение своих классов 13-ричных цифр/чисел не потребовалось))
 
+
+## Попытка три
+
+Предыдущая попытка так же провалилась. Аналитическая функция подсчета длины композиции (комбинаций цифр) оказалось неверной для чисел в тринадцатиричной системе исчисления. Возвращаемся к брутфорсу.
+
+Функция подсчета длины композиции методом перебора всех чисел:
+
+```cpp
+inline std::size_t compositionLength13(unsigned int k, unsigned char digits) {
+    Number top = maxNumber(digits);
+
+    auto sumDigits = [](const Number& n) -> unsigned int {
+        unsigned int result = 0;
+        for (auto it = std::begin(n); it != std::end(n); ++it) {
+            result += it->raw();
+        }
+        return result;
+    };
+
+    std::size_t result = 0;
+    Number n{};
+    for (;;) {
+        if (sumDigits(n) == k) {
+            result++;
+        }
+        if (n != top) {
+            n = n + Digit{1};
+        }
+        else {
+            break;
+        }
+    }
+
+    return result;
+}
+```
+
+Бенчмарк:
+
+```
+[nix-shell:~/learn_discrete_math/nice_numbers13]$ ../build/bin/benchmark_nice_numbers13 
+2021-06-19T00:56:21+03:00
+Running ../build/bin/benchmark_nice_numbers13
+Run on (8 X 4000 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x4)
+  L1 Instruction 32 KiB (x4)
+  L2 Unified 256 KiB (x4)
+  L3 Unified 8192 KiB (x1)
+Load Average: 1.10, 0.80, 0.82
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+***WARNING*** Library was built as DEBUG. Timings may be affected.
+-------------------------------------------------------------------
+Benchmark                         Time             CPU   Iterations
+-------------------------------------------------------------------
+BM_compositionLength13/2      60542 ns        60541 ns         9511
+BM_compositionLength13/3     713164 ns       713141 ns          941
+BM_compositionLength13/4    8408347 ns      8408298 ns           79
+BM_compositionLength13/5  100123526 ns    100121070 ns            7
+BM_compositionLength13/6 1370145997 ns   1370102250 ns            1
+```
+
+~1,4 секунды. Ожидаемое время подсчета всех красивых чисел ~100 секунд для отладочной сборки. Релизная сборка будет быстрей раз в 10-20. Так что прикрутим многопоточность.
