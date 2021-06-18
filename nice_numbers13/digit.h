@@ -17,6 +17,8 @@ public:
 
     static Sum sum(const Digit&, const Digit&);
 
+    unsigned char raw() const;
+
 private:
     static const unsigned char top = 12;
     unsigned char value;
@@ -30,6 +32,11 @@ inline Digit::Digit(unsigned char v)
     if (v > top) {
         throw std::logic_error{"Digit: overflow"};
     }
+}
+
+
+inline unsigned char Digit::raw() const {
+    return value;
 }
 
 
