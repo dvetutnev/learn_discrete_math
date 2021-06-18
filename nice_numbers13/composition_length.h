@@ -10,7 +10,7 @@ std::size_t compositionLength(unsigned int k, unsigned char n, unsigned char bas
     }
 
     std::size_t result = 0;
-    for (unsigned char j = 0; j < base; j++) {
+    for (unsigned char j = 0; j < base && j <= k; j++) {
         result += compositionLength(k - j, n - 1);
     }
 
