@@ -9,6 +9,6 @@ void BM_compositionLength13(benchmark::State& state) {
     }
 }
 
-BENCHMARK(BM_compositionLength13)->Arg(2)->Arg(3)->Arg(4)->Arg(5)->Arg(6)->Arg(7);
+BENCHMARK(BM_compositionLength13)->Arg(2)->Arg(3)->Arg(4)->Arg(5)->Arg(6);
 
 BENCHMARK_MAIN();
