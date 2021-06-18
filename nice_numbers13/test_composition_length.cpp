@@ -44,3 +44,14 @@ TEST(compositionLength, bruteforce33_3) {
     std::size_t lb = bruteforce::compositionLength13(33, 3);
     ASSERT_EQ(lb, 10);
 }
+
+TEST(compositionLength, bruteforce48_4) {
+    std::size_t lb = bruteforce::compositionLength13(48, 4);
+    ASSERT_EQ(lb, 1);
+}
+
+TEST(compositionLength, bruteforce84_7) {
+    std::size_t lb = bruteforce::compositionLength13(84, 7);
+    ASSERT_EQ(lb, 1);
+}
+

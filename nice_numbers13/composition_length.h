@@ -46,13 +46,17 @@ inline std::size_t compositionLength13(unsigned int k, unsigned char digits) {
 
     std::size_t result = 0;
     Number n{};
-    do {
+    for (;;) {
         if (sumDigits(n) == k) {
             result++;
         }
-        n = n + Digit{1};
-
-    } while (n != top);
+        if (n != top) {
+            n = n + Digit{1};
+        }
+        else {
+            break;
+        }
+    }
 
     return result;
 }
