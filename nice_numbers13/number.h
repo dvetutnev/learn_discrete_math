@@ -5,12 +5,14 @@
 #include <array>
 #include <initializer_list>
 #include <algorithm>
+#include <cassert>
 
 
 class Number
 {
 public:
     // Разряды расположены от старшего к младшему
+    // Число с ведущими нулями
     using Value = std::array<Digit, 13>;
 
     inline static const Value defaultValue = {
@@ -31,6 +33,9 @@ public:
 
     Number(const Value& v = defaultValue);
     Number(std::initializer_list<Digit>);
+
+    template<typename Iterator>
+    Number(Iterator, Iterator);
 
     Number(const Number&) = default;
     Number& operator= (const Number&) = default;
@@ -62,6 +67,15 @@ inline Number::Number(std::initializer_list<Digit> l)
     }
 }
 
+template<typename Iterator>
+Number::Number(Iterator beginIt, Iterator endIt)
+{
+    auto itInput = std::make_reverse_iterator(endIt);
+    auto endInput = std::make_reverse_iterator(beginIt);
+    for (auto it = std::rbegin(value); it != std::rend(value) && itInput != endInput; ++it, ++itInput) {
+        *it = *itInput;
+    }
+}
 
 inline Number::Value::const_iterator Number::begin() const {
     return std::begin(value);

@@ -1,4 +1,6 @@
 #include "number.h"
+
+#include <list>
 #include <gtest/gtest.h>
 
 
@@ -408,4 +410,24 @@ TEST(NiceNumbers13_isNice, no) {
     }};
 
     ASSERT_FALSE(isNice(n));
+}
+
+
+TEST(NiceNumbers13_number, ctorFromItRange_list) {
+    std::list<Digit> l{
+        Digit{8},
+        Digit{12},
+        Digit{0},
+        Digit{1}
+    };
+
+    Number expected{
+        Digit{8},
+        Digit{12},
+        Digit{0},
+        Digit{1}
+    };
+
+    Number result{std::begin(l), std::end(l)};
+    ASSERT_EQ(result, expected);
 }
