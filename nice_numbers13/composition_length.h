@@ -4,6 +4,7 @@
 
 #include <list>
 #include <algorithm>
+#include <numeric>
 #include <cassert>
 
 
@@ -34,14 +35,13 @@ inline Number maxNumber(unsigned char digits) {
 }
 
 inline std::size_t compositionLength13(unsigned int k, unsigned char digits) {
-    Number top = maxNumber(digits);
+    const Number top = maxNumber(digits);
 
     auto sumDigits = [](const Number& n) -> unsigned int {
-        unsigned int result = 0;
-        for (auto it = std::begin(n); it != std::end(n); ++it) {
-            result += it->raw();
-        }
-        return result;
+        auto sum = [](unsigned int s, const Digit& d) -> unsigned int {
+            return s + d.raw();
+        };
+        return std::accumulate(std::begin(n), std::end(n), 0, sum);
     };
 
     std::size_t result = 0;

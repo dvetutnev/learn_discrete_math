@@ -50,7 +50,7 @@ TEST(compositionLength, bruteforce48_4) {
     ASSERT_EQ(lb, 1);
 }
 
-TEST(compositionLength, bruteforce84_7) {
+TEST(compositionLength, DISABLED_bruteforce84_7) {
     std::size_t lb = bruteforce::compositionLength13(84, 7);
     ASSERT_EQ(lb, 1);
 }
