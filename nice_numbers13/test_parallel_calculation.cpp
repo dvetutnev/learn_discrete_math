@@ -12,7 +12,7 @@ struct MockCompositionLength
 };
 
 
-TEST(parallelCalculationLength, _) {
+TEST(NiceNumbers13, parallelCalculationLength) {
     const std::vector<Range> ranges{ {7, 9}, {10, 12} };
 
     MockCompositionLength mock;
