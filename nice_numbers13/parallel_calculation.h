@@ -16,7 +16,7 @@ struct Thread
     std::future<std::vector<std::size_t>> future;
 };
 
-inline std::vector<std::size_t> parallelCalculation(std::vector<Range> ranges, Operation operation) {
+inline std::vector<std::size_t> parallelCalculation(const std::vector<Range>& ranges, Operation operation) {
     std::size_t inProgres = ranges.size();
     std::mutex mutex;
     std::condition_variable cv;
@@ -37,7 +37,7 @@ inline std::vector<std::size_t> parallelCalculation(std::vector<Range> ranges, O
         cv.wait(lock, pred);
     };
 
-    auto makeThread = [operation, &signal] (const Range& range) -> Thread {
+    auto makeThread = [operation, &signal] (Range range) -> Thread {
         std::promise<std::vector<std::size_t>> promise;
         auto future = promise.get_future();
 
