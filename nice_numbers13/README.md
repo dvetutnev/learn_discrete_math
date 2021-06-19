@@ -332,8 +332,38 @@ inline std::vector<Range> separateRange(Range range, unsigned int count) {
 }
 ```
 
-Подсчет суммы квадратов числа комбинаций.
+Собираем все в кучу и считаем сумму квадратов комбинаций:
 
-Бенчмарк.
+```cpp
+std::vector<Range> ranges = separateRange(Range{0, 12 * 6}, std::thread::hardware_concurrency());
 
-Итого число красивых чисел: **0**. Разумный брутфорс и многопоточность наше все)
+auto wrapper = [](unsigned int sum) -> std::size_t {
+    return bruteforce::compositionLength13(sum, 6);
+};
+std::vector<std::size_t> combs = parallelCalculation(ranges, wrapper);
+
+auto sumSquare = [](std::size_t sum, std::size_t n) -> std::size_t {
+    return sum += n * n;
+};
+std::size_t result = std::accumulate(std::begin(combs), std::end(combs), std::size_t{0});
+
+std::cout << "Total nice numbers13: " << result << std::endl;
+```
+
+Время исполнения отладочной сборки на 8 ядрах:
+
+```
+[ RUN      ] NiceNumbers13._
+Total nice numbers13: 3257437
+[       OK ] NiceNumbers13._ (14564 ms)
+```
+
+Релизная сборка:
+
+```
+[ RUN      ] NiceNumbers13._
+Total nice numbers13: 3257437
+[       OK ] NiceNumbers13._ (342 ms)
+```
+
+Итого число красивых чисел: **3257437**. Разумный брутфорс и многопоточность наше все)
