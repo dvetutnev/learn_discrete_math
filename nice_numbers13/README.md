@@ -279,6 +279,7 @@ inline std::vector<std::size_t> parallelCalculation(const std::vector<Range>& ra
 
     auto makeThread = [operation, &signal] (Range range) -> Thread {
         auto result = std::make_shared<std::vector<std::size_t>>();
+
         auto worker = [range, operation, result, &signal] () mutable {
             for (auto i = range.first; i <= range.second; i++) {
                 result->push_back(operation(i));
