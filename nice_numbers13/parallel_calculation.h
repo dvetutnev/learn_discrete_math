@@ -1,10 +1,11 @@
 #pragma once
 
 #include <thread>
-#include <future>
+#include <condition_variable>
 #include <functional>
 #include <vector>
 #include <algorithm>
+#include <memory>
 
 
 using Range = std::pair<unsigned int, unsigned int>;
@@ -13,7 +14,7 @@ using Operation = std::function<std::size_t(unsigned int)>;
 struct Thread
 {
     std::thread thread;
-    std::future<std::vector<std::size_t>> future;
+    std::shared_ptr<std::vector<std::size_t>> result;
 };
 
 inline std::vector<std::size_t> parallelCalculation(const std::vector<Range>& ranges, Operation operation) {
@@ -38,21 +39,15 @@ inline std::vector<std::size_t> parallelCalculation(const std::vector<Range>& ra
     };
 
     auto makeThread = [operation, &signal] (Range range) -> Thread {
-        std::promise<std::vector<std::size_t>> promise;
-        auto future = promise.get_future();
-
-        auto worker = [range, operation, promise = std::move(promise), &signal] () mutable {
-            std::vector<std::size_t> result;
-
+        auto result = std::make_shared<std::vector<std::size_t>>();
+        auto worker = [range, operation, result, &signal] () mutable {
             for (auto i = range.first; i <= range.second; i++) {
-                result.push_back(operation(i));
+                result->push_back(operation(i));
             }
-
-            promise.set_value(std::move(result));
             signal();
         };
 
-        return Thread{ std::thread{std::move(worker)}, std::move(future) };
+        return Thread{ std::thread{std::move(worker)}, std::move(result) };
     };
 
     std::vector<Thread> threads;
@@ -65,8 +60,7 @@ inline std::vector<std::size_t> parallelCalculation(const std::vector<Range>& ra
     std::vector<std::size_t> result;
     for (Thread& t : threads) {
         t.thread.join();
-        std::vector<std::size_t> chunk = t.future.get();
-        std::copy(std::begin(chunk), std::end(chunk), std::back_inserter(result));
+        std::copy(t.result->begin(), t.result->end(), std::back_inserter(result));
     }
 
     return result;

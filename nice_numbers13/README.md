@@ -242,6 +242,10 @@ BM_compositionLength13/6 1370145997 ns   1370102250 ns            1
 
 Многопоточность реализована достаточно просто. Есть группа тредов, счетчик запущеных тредов и сигнальная/условная переменная. Основной поток стоит в ожидании сигнала, проверяет счетчик на равенство нулю, если не 0 - ожидаем дальше, если 0 подсчитываем итоговый результат. Каждый тред после окончания подсчета числа комбинаций уменьшает счетчик на единичку и дергает сигнальную переменную. Возрат результата из треда реализован парой **future/promise**. Функция подсчета комбинаций обернута в функтор для ее подмены во время тестирования.
 
+### Update
+
+Передача через **future/promise** избыточна. Указателем на массив вполне можно обойтись.
+
 ```cpp
 using Range = std::pair<unsigned int, unsigned int>;
 using Operation = std::function<std::size_t(unsigned int)>;
@@ -249,10 +253,10 @@ using Operation = std::function<std::size_t(unsigned int)>;
 struct Thread
 {
     std::thread thread;
-    std::future<std::vector<std::size_t>> future;
+    std::shared_ptr<std::vector<std::size_t>> result;
 };
 
-inline std::vector<std::size_t> parallelCalculation(std::vector<Range> ranges, Operation operation) {
+inline std::vector<std::size_t> parallelCalculation(const std::vector<Range>& ranges, Operation operation) {
     std::size_t inProgres = ranges.size();
     std::mutex mutex;
     std::condition_variable cv;
@@ -273,22 +277,16 @@ inline std::vector<std::size_t> parallelCalculation(std::vector<Range> ranges, O
         cv.wait(lock, pred);
     };
 
-    auto makeThread = [operation, &signal] (const Range& range) -> Thread {
-        std::promise<std::vector<std::size_t>> promise;
-        auto future = promise.get_future();
-
-        auto worker = [range, operation, promise = std::move(promise), &signal] () mutable {
-            std::vector<std::size_t> result;
-
+    auto makeThread = [operation, &signal] (Range range) -> Thread {
+        auto result = std::make_shared<std::vector<std::size_t>>();
+        auto worker = [range, operation, result, &signal] () mutable {
             for (auto i = range.first; i <= range.second; i++) {
-                result.push_back(operation(i));
+                result->push_back(operation(i));
             }
-
-            promise.set_value(std::move(result));
             signal();
         };
 
-        return Thread{ std::thread{std::move(worker)}, std::move(future) };
+        return Thread{ std::thread{std::move(worker)}, std::move(result) };
     };
 
     std::vector<Thread> threads;
@@ -301,8 +299,7 @@ inline std::vector<std::size_t> parallelCalculation(std::vector<Range> ranges, O
     std::vector<std::size_t> result;
     for (Thread& t : threads) {
         t.thread.join();
-        std::vector<std::size_t> chunk = t.future.get();
-        std::copy(std::begin(chunk), std::end(chunk), std::back_inserter(result));
+        std::copy(t.result->begin(), t.result->end(), std::back_inserter(result));
     }
 
     return result;
