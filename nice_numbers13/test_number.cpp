@@ -1,7 +1,7 @@
 #include "number.h"
 
-#include <list>
 #include <gtest/gtest.h>
+#include <vector>
 
 
 TEST(NiceNumbers13_Number, ctor) {
@@ -413,8 +413,8 @@ TEST(NiceNumbers13_isNice, no) {
 }
 
 
-TEST(NiceNumbers13_number, ctorFromItRange_list) {
-    std::list<Digit> l{
+TEST(NiceNumbers13_number, ctorFromItRange) {
+    std::vector<Digit> range{
         Digit{8},
         Digit{12},
         Digit{0},
@@ -428,6 +428,6 @@ TEST(NiceNumbers13_number, ctorFromItRange_list) {
         Digit{1}
     };
 
-    Number result{std::begin(l), std::end(l)};
+    Number result{std::begin(range), std::end(range)};
     ASSERT_EQ(result, expected);
 }
